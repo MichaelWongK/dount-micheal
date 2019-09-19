@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.michael.sweet.heart.platform.organization.mapper.UserMapper">
+
+    <resultMap id="baseResultMap" type="com.michael.sweet.heart.platform.organization.entity.UserEntity">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="userInfoId" column="USER_INFO_ID" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="INTEGER"/>
+        <result property="mainStationId" column="MAIN_STATION_ID" jdbcType="INTEGER"/>
+        <result property="visit" column="VISIT" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="createUser" column="CREATE_USER" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="MODIFY_TIME" jdbcType="TIMESTAMP"/>
+        <result property="modifyUser" column="MODIFY_USER" jdbcType="VARCHAR"/>
+        <association property="userInfo" resultMap="userInfoResultMap"/>
+    </resultMap>
+
+    <!-- userInfoResultMap -->
+    <resultMap id="userInfoResultMap" type="com.michael.sweet.heart.platform.organization.entity.UserInfoEntity">
+        <result property="userChineseName" column="USER_CHINESE_NAME" jdbcType="VARCHAR"/>
+        <result property="jobNumber" column="JOB_NUMBER" jdbcType="VARCHAR"/>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="INTEGER"/>
+        <result property="birthday" column="BIRTHDAY" jdbcType="TIMESTAMP"/>
+        <result property="mobile" column="MOBILE" jdbcType="VARCHAR"/>
+        <result property="descContent" column="DESC_CONTENT" jdbcType="VARCHAR"/>
+        <result property="avatar" column="AVATAR" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="baseColumns">
+        ID, USERNAME, PASSWORD, USER_INFO_ID, STATUS, MAIN_STATION_ID, VISIT,
+        CREATE_TIME, CREATE_USER, MODIFY_TIME, MODIFY_USER
+    </sql>
+
+    <sql id="baseUserInfoColumns">
+        `user`.*,
+        userInfo.*
+    </sql>
+
+    <select id="selectUserInfoDetail" resultMap="baseResultMap">
+        SELECT
+        <include refid="baseUserInfoColumns"/>
+        FROM `DEV_USER` `user`
+        LEFT JOIN DEV_USER_INFO userInfo ON userInfo.ID = `user`.USER_INFO_ID
+        WHERE `user`.userName = #{userName}
+        AND `user`.STATUS > -1
+        -- AND role.status=1
+    </select>
+
+    <!-- 分页使用 -->
+    <resultMap id="listUserResultMap" type="com.michael.sweet.heart.platform.organization.entity.UserEntity">
+        <id property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="userInfoId" column="USER_INFO_ID" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="INTEGER"/>
+        <result property="mainStationId" column="MAIN_STATION_ID" jdbcType="INTEGER"/>
+        <result property="visit" column="VISIT" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="createUser" column="CREATE_USER" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="MODIFY_TIME" jdbcType="TIMESTAMP"/>
+        <result property="modifyUser" column="MODIFY_USER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="listUser" resultMap="listUserResultMap">
+        SELECT
+        DISTINCT `user`.ID,
+        `user`.USERNAME,
+        `user`.PASSWORD,
+        `user`.USER_INFO_ID,
+        `user`.STATUS,
+        `user`.MAIN_STATION_ID,
+        `user`.VISIT,
+        `user`.CREATE_TIME,
+        `user`.CREATE_USER,
+        `user`.MODIFY_TIME,
+        `user`.MODIFY_USER,
+        userInfo.USER_CHINESE_NAME,
+        userInfo.JOB_NUMBER,
+        userInfo.SEX,
+        userInfo.EMAIL,
+        userInfo.BIRTHDAY,
+        userInfo.MOBILE,
+        userInfo.DESC_CONTENT,
+        userInfo.AVATAR,
+        #{roles} ROLES,
+        #{depName} DEP_NAME
+        FROM `DEV_USER` as `user`
+    </select>
+
+
+
+</mapper>
