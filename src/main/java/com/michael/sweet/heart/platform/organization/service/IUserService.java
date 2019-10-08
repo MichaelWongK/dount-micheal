@@ -2,6 +2,7 @@ package com.michael.sweet.heart.platform.organization.service;
 
 
 import com.michael.sweet.heart.common.mp.PageInfo;
+import com.michael.sweet.heart.config.exception.SweetException;
 import com.michael.sweet.heart.platform.organization.entity.UserEntity;
 import com.michael.sweet.heart.platform.organization.entity.UserInfoEntity;
 
@@ -24,7 +25,7 @@ public interface IUserService {
      * @author michael.wang <a href="mailto:wangmk13@163.com"/>
      * @date 2019-09-19 13:54
      */
-    String addUser(UserEntity userEntity, UserInfoEntity userInfoEntity);
+    String addUser(UserEntity userEntity, UserInfoEntity userInfoEntity) throws SweetException;
 
     /**
      * 通过用户名登录或者工号登录

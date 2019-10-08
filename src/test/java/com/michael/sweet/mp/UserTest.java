@@ -1,6 +1,7 @@
 package com.michael.sweet.mp;
 
 import com.michael.sweet.heart.common.util.IdUtils;
+import com.michael.sweet.heart.config.exception.SweetException;
 import com.michael.sweet.heart.platform.organization.entity.UserEntity;
 import com.michael.sweet.heart.platform.organization.entity.UserInfoEntity;
 import com.michael.sweet.heart.platform.organization.service.IUserService;
@@ -42,7 +43,11 @@ public class UserTest {
         userInfoEntity.setSex("2");
         userInfoEntity.setUserTheme("blue");
 
-        System.out.println(userService.addUser(userEntity, userInfoEntity));
+        try {
+            System.out.println(userService.addUser(userEntity, userInfoEntity));
+        } catch (SweetException e) {
+            e.printStackTrace();
+        }
 
     }
 

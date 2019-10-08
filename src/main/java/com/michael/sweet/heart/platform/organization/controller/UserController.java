@@ -1,5 +1,7 @@
 package com.michael.sweet.heart.platform.organization.controller;
 
+import com.michael.sweet.heart.common.json.CodeEnumType;
+import com.michael.sweet.heart.common.json.JsonResponse;
 import com.michael.sweet.heart.common.util.IdUtils;
 import com.michael.sweet.heart.platform.organization.entity.UserEntity;
 import com.michael.sweet.heart.platform.organization.entity.UserInfoEntity;
@@ -48,7 +50,7 @@ public class UserController implements UserSwagger {
         try {
             result = userService.addUser(userEntity, userInfoEntity);
         } catch (Exception e) {
-            return "查询异常，请稍后再试";
+            return JsonResponse.ERROR_PARAM;
         }
         return result;
     }
@@ -78,9 +80,9 @@ public class UserController implements UserSwagger {
     public String getUserInfo(String userName) {
         UserEntity userEntity = userService.getUserInfo(userName);
         if(userEntity != null ) {
-            return userEntity.toString();
+            return JsonResponse.toJson(userEntity);
         }
-        return "用户不存在";
+        return JsonResponse.toJson(CodeEnumType.ORGANIZATION_LOGIN_USER_NOT_EXIST);
     }
 
     @Override

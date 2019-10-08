@@ -1,6 +1,8 @@
 package com.michael.sweet.heart.platform.organization.service.impl;
 
+import com.michael.sweet.heart.common.json.JsonResponse;
 import com.michael.sweet.heart.common.mp.PageInfo;
+import com.michael.sweet.heart.config.exception.SweetException;
 import com.michael.sweet.heart.platform.organization.entity.UserEntity;
 import com.michael.sweet.heart.platform.organization.entity.UserInfoEntity;
 import com.michael.sweet.heart.platform.organization.mapper.UserInfoMapper;
@@ -28,10 +30,10 @@ public class UserServiceImpl implements IUserService {
 
     @Transactional(rollbackFor = Throwable.class)
     @Override
-    public String addUser(UserEntity userEntity, UserInfoEntity userInfoEntity) {
+    public String addUser(UserEntity userEntity, UserInfoEntity userInfoEntity) throws SweetException {
         userMapper.insert(userEntity);
         userInfoMapper.insert(userInfoEntity);
-        return "新增成功";
+        return JsonResponse.SUCCESS;
     }
 
     @Override
