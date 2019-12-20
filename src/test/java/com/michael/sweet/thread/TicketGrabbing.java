@@ -1,4 +1,4 @@
-package com.michael.sweet;
+package com.michael.sweet.thread;
 
 /**
  * @author michael.wang
